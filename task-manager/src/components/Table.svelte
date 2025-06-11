@@ -1,31 +1,31 @@
 <script>
   export let array;
-  export let dialog = false
+  export let dialog = false;
+  export let objInfo;
 
   function check(obj) {
     array[array.indexOf(obj)].status = true;
   }
 
-  function remove (obj){
+  function remove(obj) {
     array.splice(array.indexOf(obj), 1);
-    array = array;
+    array = [...array];
   }
 
-  function info (obj){
-        dialog = true;
+  function info(obj) {
+    dialog = true;
+    objInfo = obj;
   }
-  
 </script>
 
 <main>
-  <h3>Tarefas Agendadas</h3>
+  <h3>Tarefas Agendadas ({array.length})</h3>
   <table>
     <thead>
       <tr>
         <th>TAREFA</th>
         <th>PRAZO</th>
         <th>PRIORIDADE</th>
-        <th> </th>
       </tr>
     </thead>
     <tbody>
@@ -45,27 +45,29 @@
               {obj.prazo}
             {/if}
           </td>
-          {#if obj.status}
-            <del>{obj.prioridade}</del>
-          {:else}
-            {obj.prioridade}
-          {/if}
+          <td>
+            {#if obj.status}
+              <del>{obj.prioridade}</del>
+            {:else}
+              {obj.prioridade}
+            {/if}
+          </td>
           <td>
             {#if !obj.status}
-            <button class="btn-check" on:click={check(obj)}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                fill="#FFF"
-                class="bi bi-check-circle-fill"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
-                />
-              </svg>
-            </button>
+              <button class="btn-check" on:click={check(obj)}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  fill="#FFF"
+                  class="bi bi-check-circle-fill"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"
+                  />
+                </svg>
+              </button>
             {/if}
 
             <button class="btn-info" on:click={info(obj)}>
@@ -116,7 +118,6 @@
     padding: 10px;
     text-align: left;
   }
-
   tr:nth-child(even) {
     background-color: lightgray;
   }

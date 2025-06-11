@@ -1,35 +1,49 @@
 <script>
-
+    export let visible = true;
+    export let obj;
+    import { fade } from "svelte/transition";
 </script>
 
 <main>
-    <div  class="container">
+    <div transition:fade class="container">
         <div class="top-line">
-            <button>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#FFF" class="bi bi-x-circle-fill" viewBox="0 0 16 16">
-                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"/>
+            <button on:click={() => (visible = false)}>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="#FFF"
+                    class="bi bi-x-circle-fill"
+                    viewBox="0 0 16 16"
+                >
+                    <path
+                        d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M5.354 4.646a.5.5 0 1 0-.708.708L7.293 8l-2.647 2.646a.5.5 0 0 0 .708.708L8 8.707l2.646 2.647a.5.5 0 0 0 .708-.708L8.707 8l2.647-2.646a.5.5 0 0 0-.708-.708L8 7.293z"
+                    />
                 </svg>
             </button>
         </div>
         <div class="content">
-            <span><b>ID: </b></span>
-			<span><b>TAREFA: </b></span>
-			<span><b>DESCRIÇÃO: </b></span> 
-			<span><b>PRIORIDADE: </b></span>
-			<span><b>PRAZO: </b></span>
-			<span><b>SITUAÇÃO: </b></span>
+            <span><b>ID: {obj.id}</b></span>
+            <span><b>TAREFA: {obj.tarefa}</b></span>
+            <span><b>DESCRIÇÃO: {obj.descricao}</b></span>
+            <span><b>PRIORIDADE: {obj.prioridade}</b></span>
+            <span><b>PRAZO: {obj.prazo}</b></span>
+            {#if obj.status}
+                <span><b>SITUAÇÃO: Finalizada</b></span>
+            {:else}
+                <span><b>SITUAÇÃO: Em aberto</b></span>
+            {/if}
         </div>
     </div>
 </main>
 
-<style> 
-
-     main {
+<style>
+    main {
         position: absolute;
         top: 0px;
         left: 0px;
         z-index: 10;
-        display: flex;    
+        display: flex;
         width: 100%;
         min-height: 100vh;
         justify-content: center;
@@ -45,7 +59,7 @@
     }
 
     .top-line {
-        display: flex;    
+        display: flex;
         justify-content: end;
         margin: 5px;
     }
@@ -61,12 +75,11 @@
 
     button:hover {
         opacity: 0.7;
-        cursor:grab;
+        cursor: grab;
     }
 
     span {
         margin-bottom: 10px;
         display: block;
     }
-
 </style>

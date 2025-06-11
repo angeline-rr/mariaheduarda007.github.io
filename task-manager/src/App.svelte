@@ -1,32 +1,83 @@
 <script>
-	
-	import Tabela from './components/Table.svelte'
-    import Dialogo from './components/Dialog.svelte'
+    import Tabela from "./components/Table.svelte";
+    import Dialogo from "./components/Dialog.svelte";
 
-    let visible = false;
+    let visible;
+    let id = 3;
+    let objInfo;
 
+    let data = [
+        {
+            id: 1,
+            tarefa: "Fazer compras",
+            descricao: "Comprar frutas, legumes e pão",
+            prioridade: "Média",
+            prazo: "12/06/2025",
+            status: false,
+        },
+        {
+            id: 2,
+            tarefa: "Estudar JavaScript",
+            descricao: "Revisar conceitos de Promises e Async/Await",
+            prioridade: "Alta",
+            prazo: "10/06/2025",
+            status: true,
+        },
+        {
+            id: 3,
+            tarefa: "Pagar contas",
+            descricao: "Pagar conta de luz e internet",
+            prioridade: "Alta",
+            prazo: "14/06/2025",
+            status: false,
+        },
+    ];
 
-	let data = [
-		{id: 1, tarefa: "Fazer compras", descricao: "Comprar frutas, legumes e pão", prioridade: "Média", prazo: "12/06/2025", status: false },
-		{id: 2, tarefa: "Estudar JavaScript", descricao: "Revisar conceitos de Promises e Async/Await", prioridade: "Alta", prazo: "10/06/2025", status: true },
-		{id: 3, tarefa: "Pagar contas", descricao: "Pagar conta de luz e internet", prioridade: "Alta", prazo: "14/06/2025", status: false }
-	]
+    function createObject() {
+        let tarefa = document.querySelector("input[name='tarefa']").value;
+        let prazo = document.querySelector("input[name='prazo']").value;
+        let prioridade = document.querySelector(
+            "select[name='prioridade']",
+        ).value;
+        let descricao = document.querySelector(
+            "textarea[name='descricao']",
+        ).value;
+        let formatPrazo = prazo.split("-");
+        if (tarefa && prazo && prioridade && descricao) {
+            prazo = `${formatPrazo[2]}/${formatPrazo[1]}/${formatPrazo[0]}`;
+            data.push({
+                id: id += 1,
+                tarefa,
+                descricao,
+                prioridade,
+                prazo,
+                status: false,
+            });
 
-    
+            document.querySelector("input[name='tarefa']").value = "";
+            document.querySelector("input[name='prazo']").value = "";
+            document.querySelector("select[name='prioridade']").value = "Baixa";
+            document.querySelector("textarea[name='descricao']").value = "";
+        } else {
+            alert("Preencha todos os campos");
+        }
+
+        data = [...data];
+    }
 </script>
 
 <main>
-	<h1>Gerenciador de Tarefas - Svelte</h1>
-	
-	<div class="form-inputs">
+    <h1>Gerenciador de Tarefas - Svelte</h1>
+
+    <div class="form-inputs">
         <div class="grid-auto">
             <div>
                 <label for="tarefa">Tarefa</label>
-                <input type="text" name="tarefa"/>
+                <input type="text" name="tarefa" />
             </div>
             <div>
                 <label for="prazo">Prazo</label>
-                <input type="date" name="prazo"/>
+                <input type="date" name="prazo" />
             </div>
             <div>
                 <label for="prioridade">Prioridade</label>
@@ -37,47 +88,56 @@
                 </select>
             </div>
         </div>
-            
+
         <div class="grid-conf">
             <div>
                 <label for="descricao">Descrição</label>
                 <textarea name="descricao"></textarea>
             </div>
             <div class="div-btn">
-                <button>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#FFF" class="bi bi-floppy-fill" viewBox="0 0 16 16">
-                        <path d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z"/>
-                        <path d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z"/>
+                <button on:click={createObject}>
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="32"
+                        height="32"
+                        fill="#FFF"
+                        class="bi bi-floppy-fill"
+                        viewBox="0 0 16 16"
+                    >
+                        <path
+                            d="M0 1.5A1.5 1.5 0 0 1 1.5 0H3v5.5A1.5 1.5 0 0 0 4.5 7h7A1.5 1.5 0 0 0 13 5.5V0h.086a1.5 1.5 0 0 1 1.06.44l1.415 1.414A1.5 1.5 0 0 1 16 2.914V14.5a1.5 1.5 0 0 1-1.5 1.5H14v-5.5A1.5 1.5 0 0 0 12.5 9h-9A1.5 1.5 0 0 0 2 10.5V16h-.5A1.5 1.5 0 0 1 0 14.5z"
+                        />
+                        <path
+                            d="M3 16h10v-5.5a.5.5 0 0 0-.5-.5h-9a.5.5 0 0 0-.5.5zm9-16H4v5.5a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5zM9 1h2v4H9z"
+                        />
                     </svg>
                 </button>
             </div>
         </div>
     </div>
-	
-    
-	<Tabela  array={data} />
-    
-    {#if visible}
-    <Dialogo bind:dialog={visible}/>
-    {/if}
 
+    <Tabela array={data} bind:dialog={visible} bind:objInfo />
+
+    {#if visible}
+        <Dialogo bind:visible bind:obj={objInfo} />
+    {/if}
 </main>
 
 <style>
-	main {
-		text-align: center;
-		padding: 1em;
-	}
+    main {
+        text-align: center;
+        padding: 1em;
+    }
 
-	h1 {
-		margin: 0px;
-		margin-bottom: 15px;
+    h1 {
+        margin: 0px;
+        margin-bottom: 15px;
         font-size: 38px;
         color: whitesmoke;
         text-shadow: 2px 2px 4px #000000;
     }
 
-	.grid-auto {
+    .grid-auto {
         display: grid;
         grid-template-columns: auto auto auto;
         column-gap: 10px;
@@ -106,7 +166,7 @@
         font-size: 16px;
         font-weight: bold;
     }
-    
+
     input {
         width: 100%;
         border: 1px solid darkgrey;
@@ -122,9 +182,9 @@
     }
 
     select {
-        background-color: #EEE;
+        background-color: #eee;
         width: 100%;
-        border: 1px solid grey
+        border: 1px solid grey;
     }
 
     button {
@@ -138,7 +198,7 @@
 
     button:hover {
         opacity: 0.7;
-        cursor:grab;
+        cursor: grab;
     }
 
     .div-btn {
@@ -146,5 +206,4 @@
         justify-content: end;
         align-items: end;
     }
-
 </style>
